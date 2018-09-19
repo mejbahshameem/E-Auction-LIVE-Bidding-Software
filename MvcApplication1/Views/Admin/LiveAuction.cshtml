@@ -1,0 +1,129 @@
+﻿@model IEnumerable<MvcApplication1.Models.Product>
+
+@{
+    ViewBag.Title = "LiveAuction";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+<section  id="form">
+
+<h2>LiveAuction</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Details)
+        </th>
+        
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BiddingTime)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.BasePrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BiddingPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BuyerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SellerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+  
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Details)
+        </td>
+        
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BiddingTime)
+        </td>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.BasePrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BiddingPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BuyerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SellerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "DetailsLive", new { id=item.ID }) |
+     
+            @Html.ActionLink("Delete", "DeleteLive", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+    </section>

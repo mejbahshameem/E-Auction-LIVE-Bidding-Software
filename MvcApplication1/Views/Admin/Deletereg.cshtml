@@ -1,0 +1,74 @@
+﻿@model MvcApplication1.Models.Regi
+
+@{
+    ViewBag.Title = "Deletereg";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+<section id="form">
+    <div class="container">
+			<div class="row">
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend></legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Password)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ConfirmPassword)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConfirmPassword)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PhoneNumber)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PhoneNumber)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MailAddress)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MailAddress)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+    </div>
+    </div>
+    </section>

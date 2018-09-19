@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MvcApplication1.Models.Regi>
+
+@{
+    ViewBag.Title = "UserInfo";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+<h2>UserInfo</h2>
+<section  id="form">
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConfirmPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailAddress)
+        </th>
+        <th></th>
+          <th>Select Operation</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConfirmPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailAddress)
+        </td>
+        <td>
+         
+        </td>
+        <td>
+           
+            @Html.ActionLink("Delete", "UserInfo1", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+    </section>

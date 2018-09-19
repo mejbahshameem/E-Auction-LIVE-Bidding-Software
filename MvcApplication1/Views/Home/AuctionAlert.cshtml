@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "AuctionAlert";
+     Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+<title>E-Auction | Auction Alert</title>
+<style>
+    input[type="checkbox"]{
+  width: 30px; /*Desired width*/
+  height: 30px; /*Desired height*/
+  cursor: pointer;
+  
+  background-color:red;
+  
+}
+    
+    form1 {
+    display: block;
+    margin-bottom: 185px;
+    margin-top: 185px;
+    overflow: hidden;
+}
+
+</style>
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+@if (Session["log"] != null)
+{
+   <h4 align="center" style="color:orange;"> Choose Your favorite Category</h4>
+   
+ 
+       if(@ViewBag.success==1){
+   @Html.Raw(TempData["msg"])
+        
+}
+    <section id="form1">
+
+     @using (Html.BeginForm("AuctionAlert", "Home",FormMethod.Post))
+    {
+        <table style="empty-cells:hide; margin-left:auto; margin-right:auto;" border="0"   cellpadding="1" cellspacing="1">
+
+  <tr>
+    <th> </th><th></th>
+  </tr>
+
+  <tr>
+    <td>
+        <input type="checkbox" name="HomeDecor" style="text-align:center; vertical-align: middle;" value="HomeDecor">    
+    </td>
+
+    <td>
+      HOME DECOR
+    </td>
+   </tr>
+             <tr>
+    <td>
+        <input type="checkbox" name="Antiques" style="text-align:center; vertical-align: middle;" value="Antiques">    
+    </td>
+
+    <td>
+      ANTIQUES
+    </td>
+   </tr>
+             <tr>
+    <td>
+        <input type="checkbox" name="Painting" style="text-align:center; vertical-align: middle;" value="Painting">    
+    </td>
+
+    <td>
+      PAINTING
+    </td>
+   </tr>
+
+             <tr>
+    <td>
+        <input type="checkbox" name=" GovernmentProduct" style="text-align:center; vertical-align: middle;" value="GovernmentProduct">    
+    </td>
+
+    <td>
+      GOVERNMENT PRODUCTS
+    </td>
+   </tr>
+    <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+                       <tr>
+    <td>
+        <Button type="submit" style="text-align:center; vertical-align: middle;" class="btn btn-default" name="submit"> CREATE ALERT</button>   
+    </td>
+
+  
+   </tr>
+
+              <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+              <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+              <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+              <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+              <tr>
+         <td>
+            <br>
+         </td>
+    </tr>
+
+</table>
+
+        
+      
+  
+     }
+        
+        </section>  
+    
+}
+else{
+  <section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2>Login And Enjoy More Privileges!</h2>
+						
+             @using (Html.BeginForm("login", "Home", FormMethod.Post))
+             {
+							<input type="text" placeholder="User Name" name="uname"/>
+							<input type="password" placeholder="Password" name="password"/>
+							
+							<button type="submit" class="btn btn-default" name="submit">Login</button>
+             }
+					</div><!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form"><!--sign up form-->
+						<h2>New to E-Auction? Signup Now!</h2>
+						 @using(Html.BeginForm("Regis","Home",FormMethod.Post)){
+                           
+							<input type="text" placeholder="UserName" name="uname"/>
+                              
+							<input type="email" placeholder="Email Address" name="mail"/>
+							<input type="password" placeholder="Password"  name="pword"/>
+                              
+                            <input type="password" placeholder="RetypePassword"  name="cpword"/>
+                              
+  							<button type="submit" class="btn btn-default" name="submit">Signup</button>
+         }
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
+	
+	
+}

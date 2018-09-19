@@ -1,0 +1,85 @@
+﻿@model MvcApplication1.Models.Product
+
+@{
+    ViewBag.Title = "AddImage";
+}
+
+<h2>AddImage</h2>
+
+@using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post, new {enctype="multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Student</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProductName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ProductName)
+            @Html.ValidationMessageFor(model => model.ProductName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BasePrice)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BasePrice)
+            @Html.ValidationMessageFor(model => model.BasePrice)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category)
+            @Html.ValidationMessageFor(model => model.Category)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MaxTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MaxTime)
+            @Html.ValidationMessageFor(model => model.MaxTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BiddingTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BiddingTime)
+            @Html.ValidationMessageFor(model => model.BiddingTime)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BiddingPrice)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BiddingPrice)
+            @Html.ValidationMessageFor(model => model.BiddingPrice)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FileName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FileName)
+            @Html.ValidationMessageFor(model => model.FileName)
+        </div>
+        <p>
+            <input type="file" name="image1"/>
+        </p>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

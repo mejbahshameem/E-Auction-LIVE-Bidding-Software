@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Table";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+<section  id="form">
+   @if(ViewBag.success==1){
+   @Html.Raw(TempData["msg"])
+}
+     @if(ViewBag.success==2){
+   @Html.Raw(TempData["msg"])
+}
+     <table>
+     <tr>
+        <th >
+           Table No.
+        </th>
+        
+        <th >
+             Table Name
+        </th>
+        
+       
+            <th >
+             Redirect to Table
+        
+        </th>
+    </tr>
+        <tr>
+        <td>
+           1
+        </td>
+        <td>
+          Bid Requests
+        </td>
+        <td>
+         
+            @Html.ActionLink("View Requests", "BidRequest")
+        </td>
+    </tr>
+          <tr>
+        <td>
+           2
+        </td>
+        <td>
+            Registered Users
+        </td>
+        <td>
+         
+            @Html.ActionLink("View Users", "UserInfo")
+        </td>
+    </tr>
+          <tr>
+        <td>
+           3
+        </td>
+        <td>
+           Sold Products
+        </td>
+        <td>
+         
+            @Html.ActionLink("View Sold Products", "SoldProduct")
+        </td>
+    </tr>
+          <tr>
+        <td>
+           4
+        </td>
+        <td>
+           Products in LIVE AUCTION
+        </td>
+        <td>
+         
+            @Html.ActionLink("View LIVE AUCTION", "LiveAuction")
+        </td>
+    </tr>
+           <tr>
+        <td>
+           5
+        </td>
+        <td>
+         Alert for New Products 
+        </td>
+        <td>
+         
+            @Html.ActionLink("View Alerts", "AuctionAlert1")
+        </td>
+    </tr>
+        </table>
+
+</section>

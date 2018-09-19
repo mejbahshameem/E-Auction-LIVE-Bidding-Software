@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "login";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+<style> 
+    
+     input[type=submit] {
+    background-color: orange;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+input[type=text] {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+input[type=text]:focus {
+    border: 3px solid purple;
+}
+input[type=password] {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+input[type=password]:focus {
+    border: 3px solid purple;
+}
+</style>
+	<h2>Login</h2>
+<section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				
+					
+                        
+                                             @if(@ViewBag.error2 == 0)
+                            {
+                                <p style="color:red">**Incorrect User Name or Password</p>
+                            }
+						
+						
+             @using(Html.BeginForm("Index","Admin",FormMethod.Post)){
+							<label for="fname">User Name</label>
+  <input type="text" id="fname" name="un" placeholder="User Name">
+  <label for="lname">Last Name</label>
+  <p><input type="password" id="lname" name="pd" placeholder="Password"></p>
+							
+							<input type="submit" class="btn btn-default" name="submit1" value="Login"/>
+             }
+					
+				
+                </div>
+            </div>
+    </section>
+         

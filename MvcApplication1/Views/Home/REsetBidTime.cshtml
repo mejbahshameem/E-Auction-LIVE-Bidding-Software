@@ -1,0 +1,18 @@
+﻿@model MvcApplication1.Models.Product
+@{
+    var base64 = Convert.ToBase64String(@Model.ImageData);
+    var x = String.Format("data:image/jpg;base64,{0}", base64);
+}
+<div class="productinfo text-center">
+                 <img src='@x' alt="" />
+                    
+                 <h2>@Model.BasePrice</h2>
+                    <script>
+                        d1(@ViewBag.dc);
+                        </script>
+                    <span id="new" style="font-size: 50px !important; color:red;"></span>
+                            
+              
+                           
+                             <p><input type="submit" name="submit" value="Bid" onclick="resetBidTime()"/></p>
+                         </div>

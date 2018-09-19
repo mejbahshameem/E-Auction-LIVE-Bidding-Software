@@ -1,0 +1,887 @@
+﻿@model IEnumerable<MvcApplication1.Models.Product>								
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+    
+<title>E-Auction | HOME</title>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.7.1.min.js">
+    
+</script>
+<script type="text/javascript">
+    var uni1;
+    var uni2;
+    var ij = 0;
+    var j = 1;
+    function fir(a2,a3) {
+        if (j < 2) {
+            uni1 = a2;
+            uni2 = a3;
+           
+            
+          
+        }
+        j = j + 1;
+    }
+    </script>
+
+<script type="text/javascript">
+    var bp;
+   
+  function init_price1(a4) {
+        bp = a4;
+       
+    }
+    </script>
+<script type="text/javascript">
+    var count1;
+
+    function init_count(a5) {
+        count1 = a5;
+
+    }
+    </script>
+
+<script type="text/javascript" >
+    function resetBidTime(xy) {
+        ij++;
+        count1++;
+        var newp = 0;
+        var newp1 = 0;
+        if (count1 > 5 && count1 <= 10)
+        {
+            newp = bp*10;
+            newp1 = newp / 100;
+            result = parseInt(newp1);
+            result1 = parseInt(bp);
+            newp=result+result1;
+           
+            
+            bp = Math.ceil(newp);
+           
+            document.getElementById("new20").innerHTML = "৳"+bp;
+            
+        }
+        if (count1 > 10 && count1 <= 20) {
+            newp = bp * 30;
+            newp1 = newp / 100;
+            result = parseInt(newp1);
+            result1 = parseInt(bp);
+            newp = result + result1;
+
+
+            bp = Math.ceil(newp);
+           
+            document.getElementById("new20").innerHTML = "৳"+bp;
+        }
+        if (count1 > 20 && count1 <= 25) {
+            newp = bp * 50;
+            newp1 = newp / 100;
+            result = parseInt(newp1);
+            result1 = parseInt(bp);
+            newp = result + result1;
+
+
+            bp = Math.ceil(newp);
+           
+            document.getElementById("new20").innerHTML = "৳"+bp;
+        }
+        if (count1 > 25) {
+            newp = bp * 100;
+            newp1 = newp / 100;
+            result = parseInt(newp1);
+            result1 = parseInt(bp);
+            newp = result + result1;
+
+
+            bp = Math.ceil(newp);
+          
+            document.getElementById("new20").innerHTML = "৳"+bp;
+        }
+        $.ajax({
+            url: '@Url.Action("REsetBidTime", "Home")',
+            data: { id1: uni2 }
+           
+            
+        });
+        
+        d1(xy);
+    }
+    </script>
+<script type="text/javascript" >
+
+    var sec1 = 20;
+    var t1;
+    var i = 0;
+    function d1(x1) {
+        i++;
+        console.log(x1);
+        console.log("hello");
+
+        sec1 = x1;
+        if (i > 1) {
+            clearInterval(t1);
+        }
+        n1();
+
+
+    }
+    function p1() {
+       $.ajax({
+            url: '@Url.Action("updateBidTime", "Home")',
+           data: { timer: sec1, id: uni2, price: bp, counter:count1}
+        });
+
+        if (sec1 > 9) {
+            document.getElementById("new").innerHTML = "00 : " + sec1;
+
+            sec1--;
+        }
+        else {
+            document.getElementById("new").innerHTML = "00 : 0" + sec1;
+
+            sec1--;
+        }
+        if (sec1 < 0) {
+            document.getElementById("new").innerHTML = "TIME UP!";
+            document.getElementById("disable").disabled = true;
+            clearInterval(t1);
+
+        }
+    }
+
+    function n1() {
+        t1 = setInterval("p1()", 1000);
+    }
+</script>
+
+
+<script type="text/javascript">
+    var uni3;
+    var uni4;
+    var ij1 = 0;
+    var j1 = 1;
+    function fir1(a6,a7) {
+        if (j1 < 2) {
+            uni3 = a6;
+            uni4 = a7;
+           
+            
+          
+        }
+        j1 = j1 + 1;
+    }
+    </script>
+
+<script type="text/javascript">
+    var bp1;
+   
+  function init_price2(a8) {
+        bp1 = a8;
+       
+    }
+    </script>
+<script type="text/javascript">
+    var count2;
+
+    function init_count1(a9) {
+        count2 = a9;
+
+    }
+    </script>
+
+<script type="text/javascript" >
+    function resetBidTime1(xy1) {
+        ij1++;
+        count2++;
+        var newp2 = 0;
+        var newp3 = 0;
+        if (count2 > 5 && count2 <= 10)
+        {
+            newp2 = bp1*10;
+            newp3 = newp2/100;
+            result2 = parseInt(newp3);
+            result3 = parseInt(bp1);
+            newp2=result2+result3;
+           
+            
+            bp1 = Math.ceil(newp2);
+           
+            document.getElementById("new21").innerHTML = "৳"+bp1;
+            
+        }
+        if (count2 > 10 && count2 <= 20) {
+            newp2 = bp1 * 30;
+            newp3 = newp2 / 100;
+            result2 = parseInt(newp3);
+            result3 = parseInt(bp1);
+            newp2 = result3 + result2;
+
+
+            bp1 = Math.ceil(newp2);
+           
+            document.getElementById("new21").innerHTML = "৳"+bp1;
+        }
+        if (count2 > 20 && count2 <= 25) {
+            newp2 = bp1 * 50;
+            newp3 = newp2 / 100;
+            result2 = parseInt(newp3);
+            result3 = parseInt(bp1);
+            newp2 = result2 + result3;
+
+
+            bp1 = Math.ceil(newp2);
+           
+            document.getElementById("new21").innerHTML = "৳"+bp1;
+        }
+        if (count2 > 25) {
+            newp2 = bp1 * 100;
+            newp3 = newp2 / 100;
+            result2 = parseInt(newp3);
+            result3 = parseInt(bp1);
+            newp2 = result2 + result3;
+
+
+            bp1 = Math.ceil(newp2);
+           
+            document.getElementById("new21").innerHTML = "৳"+bp1;
+        }
+        $.ajax({
+            url: '@Url.Action("REsetBidTime1", "Home")',
+            data: { id1: uni4 }
+
+
+        });
+        d2(xy1);
+    }
+    </script>
+<script type="text/javascript" >
+
+    var sec2 = 20;
+    var t2;
+    var i1 = 0;
+    function d2(x2) {
+        i1++;
+        
+        sec2 = x2;
+        if (i1 > 1) {
+            clearInterval(t2);
+        }
+        n2();
+
+
+    }
+    function p2() {
+       $.ajax({
+            url: '@Url.Action("updateBidTime1", "Home")',
+           data: { timer: sec2, id: uni4, price: bp1, counter:count2}
+        });
+
+        if (sec2 > 9) {
+            document.getElementById("new1").innerHTML = "00 : " + sec2;
+
+            sec2--;
+        }
+        else {
+            document.getElementById("new1").innerHTML = "00 : 0" + sec2;
+
+            sec2--;
+        }
+        if (sec2 < 0) {
+            document.getElementById("new1").innerHTML = "TIME UP!";
+            document.getElementById("disable1").disabled = true;
+            clearInterval(t2);
+
+        }
+    }
+
+    function n2() {
+        t2 = setInterval("p2()", 1000);
+    }
+</script>
+
+<script type="text/javascript">
+    var uni5;
+    var uni6;
+    var ij2 = 0;
+    var j2 = 1;
+    function fir2(a10, a11) {
+        if (j2 < 2) {
+            uni5 = a10;
+            uni6 = a11;
+
+
+
+        }
+        j2 = j2 + 1;
+    }
+    </script>
+
+<script type="text/javascript">
+    var bp2;
+
+    function init_price3(a12) {
+        bp2 = a12;
+
+    }
+    </script>
+<script type="text/javascript">
+    var count3;
+
+    function init_count2(a13) {
+        count3 = a13;
+
+    }
+    </script>
+
+<script type="text/javascript" >
+    function resetBidTime2(xy2) {
+        ij2++;
+        count3++;
+        var newp3 = 0;
+        var newp4 = 0;
+        if (count3 > 5 && count3 <= 10) {
+            newp3 = bp2 * 10;
+            newp4 = newp3 / 100;
+            result4 = parseInt(newp4);
+            result5 = parseInt(bp2);
+            newp3 = result4 + result5;
+
+
+            bp2 = Math.ceil(newp3);
+
+            document.getElementById("new22").innerHTML = "৳" + bp2;
+
+        }
+        if (count3 > 10 && count3 <= 20) {
+            newp3 = bp2 * 20;
+            newp4 = newp3 / 100;
+            result4 = parseInt(newp4);
+            result5 = parseInt(bp2);
+            newp3 = result4 + result5;
+
+
+            bp2 = Math.ceil(newp3);
+
+            document.getElementById("new22").innerHTML = "৳" + bp2;
+
+        }
+        if (count3 > 20 && count3 <= 30) {
+            newp3 = bp2 * 50;
+            newp4 = newp3 / 100;
+            result4 = parseInt(newp4);
+            result5 = parseInt(bp2);
+            newp3 = result4 + result5;
+
+
+            bp2 = Math.ceil(newp3);
+
+            document.getElementById("new22").innerHTML = "৳" + bp2;
+
+        }
+        if (count3 > 30 && count3 <= 40) {
+            newp3 = bp2 * 100;
+            newp4 = newp3 / 100;
+            result4 = parseInt(newp4);
+            result5 = parseInt(bp2);
+            newp3 = result4 + result5;
+
+
+            bp2 = Math.ceil(newp3);
+
+            document.getElementById("new22").innerHTML = "৳" + bp2;
+
+        }
+        $.ajax({
+            url: '@Url.Action("REsetBidTime2", "Home")',
+            data: { id5: uni6 }
+
+
+        });
+        d3(xy2);
+    }
+    </script>
+<script type="text/javascript" >
+
+    var sec3 = 20;
+    var t3;
+    var i2 = 0;
+    function d3(x3) {
+        i2++;
+
+        sec3 = x3;
+        if (i2 > 1) {
+            clearInterval(t3);
+        }
+        n3();
+
+
+    }
+    function p3() {
+        $.ajax({
+            url: '@Url.Action("updateBidTime2", "Home")',
+           data: { timer2: sec3, id2: uni6, price2: bp2, counter2: count3 }
+       });
+
+       if (sec3 > 9) {
+           document.getElementById("new2").innerHTML = "00 : " + sec3;
+
+           sec3--;
+       }
+       else {
+           document.getElementById("new2").innerHTML = "00 : 0" + sec3;
+
+           sec3--;
+       }
+       if (sec3 < 0) {
+           document.getElementById("new2").innerHTML = "TIME UP!";
+           document.getElementById("disable2").disabled = true;
+           clearInterval(t3);
+
+       }
+   }
+
+   function n3() {
+       t3 = setInterval("p3()", 1000);
+   }
+</script>
+
+
+
+@if(ViewBag.k==1){
+   @Html.Raw(TempData["msg"])
+}
+<section id="slider">
+    <!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#slider-carousel" data-slide-to="1"></li>
+                        <li data-target="#slider-carousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="col-sm-6">
+                                <h1><span>E</span>-AUCTION</h1>
+                                <h2>First Auction Site in Bangladesh</h2>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="@Url.Content("~/Content/mytemplate/")images/home/slider1.jpg" class="girl img-responsive" alt="" />
+                                <img src="@Url.Content("~/Content/mytemplate/")images/home/pricing.png"  class="pricing" alt="" />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-sm-6">
+                                <h1><span>E</span>-AUCTION</h1>
+                                <h2>100% Quality Products</h2>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="@Url.Content("~/Content/mytemplate/")images/home/slider2.jpg" class="girl img-responsive" alt="" />
+
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="col-sm-6">
+                                <h1><span>E</span>-AUCTION</h1>
+                                <h2>Largest MarketPlace</h2>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="@Url.Content("~/Content/mytemplate/")images/home/girl3.jpg" class="girl img-responsive" alt="" />
+                                <img src="@Url.Content("~/Content/mytemplate/")images/home/pricing.png" class="pricing" alt="" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--/slider-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Search Products By Category</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                   <a href="~/Home/SearchHD">Home Decor</a>
+                                </h4>
+                            </div>
+                            
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="~/Home/SearchGVTA">Government Products</a>
+                                </h4>
+                            </div>
+                          
+                        </div>
+
+                        <div class="panel panel-default">
+                            
+                            <div id="womens" class="panel-collapse collapse">
+                               
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                           
+                        </div>
+                        <div class="panel panel-default">
+                           
+                        </div>
+                        <div class="panel panel-default">
+                          
+                        </div>
+                        <div class="panel panel-default">
+                          
+                        </div>
+                        <div class="panel panel-default">
+                            
+                        </div>
+                        <div class="panel panel-default">
+                           
+                        </div>
+                        <div class="panel panel-default">
+                           
+                        </div>
+                    </div>
+                    
+                    
+                    <!--/price-range-->
+
+                    <div class="shipping text-center">
+                        <!--shipping-->
+                        <img src="@Url.Content("~/Content/mytemplate/")images/home/shipping.jpg" alt="" />
+                    </div>
+                    <!--/shipping-->
+
+                </div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">Features Items</h2>
+                    @{
+                        
+                        foreach (MvcApplication1.Models.Product item in @Model)
+                        {
+                            var base64 = Convert.ToBase64String(@item.ImageData);
+                            var x = String.Format("data:image/jpg;base64,{0}", base64);
+
+                            //System.Drawing.Image x = (System.Drawing.Bitmap)((new System.Drawing.ImageConverter()).ConvertFrom(item.ImageData));
+           
+               
+            
+             if(ViewBag.a==1){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div id="bid" class="productinfo text-center">
+                 <img src='@x' alt="" />
+                     <script>
+                         init_price1("@item.BiddingPrice");
+                         </script>
+                    <script>
+                         init_count("@item.CountClick");
+                        
+                        </script>
+                     <h2 id="new20">৳@item.BiddingPrice </h2>
+                     <p>@item.Details</p>
+                    <script>
+                        d1(@item.BiddingTime);
+                        fir("@item.MaxTime","@item.ID");
+                        </script>
+                     
+                    <span id="new" style="font-size: 50px !important; color:red;"></span>
+                            
+                         
+                           @if (Session["log"] != null){
+                            <p><input id="disable" type="button" onclick="resetBidTime(uni1)" value="Bid" class="btn btn-default add-to-cart"/></p>}
+                     else{
+                           <p> <button class="btn btn-default add-to-cart" onclick="location.href='@Url.Action("login", "Home")';return false;">Login</button></p>}     
+                    </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                             
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                        
+             if(ViewBag.a==2){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div id="bid1" class="productinfo text-center">
+                 <img src='@x' alt="" />
+                     <script>
+                         init_price2("@item.BiddingPrice");
+                         </script>
+                    <script>
+                         init_count1("@item.CountClick");
+                        
+                        </script>
+                     <h2 id="new21">৳@item.BiddingPrice </h2>
+                     <p>@item.Details</p>
+                    <script>
+                        d2(@item.BiddingTime);
+                        fir1("@item.MaxTime","@item.ID");
+                        </script>
+                     
+                    <span id="new1" style="font-size: 50px !important; color:red;"></span>
+                            
+                         
+                           @if (Session["log"] != null){
+                            <p><input id="disable1" type="button" onclick="resetBidTime1(uni3)" value="Bid" class="btn btn-default add-to-cart"/></p>}
+                     else{
+                           <p> <button class="btn btn-default add-to-cart" onclick="location.href='@Url.Action("login", "Home")';return false;">Login</button></p>}     
+                    </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                            
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                           
+                        if(ViewBag.a==3){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div id="bid2" class="productinfo text-center">
+                 <img src='@x' alt="" />
+                     <script>
+                         init_price3("@item.BiddingPrice");
+                         </script>
+                    <script>
+                        init_count2("@item.CountClick");
+                        
+                        </script>
+                     <h2 id="new22">৳@item.BiddingPrice </h2>
+                     <p>@item.Details</p>
+                    <script>
+                        d3(@item.BiddingTime);
+                        fir2("@item.MaxTime", "@item.ID");
+                        </script>
+                     
+                    <span id="new2" style="font-size: 50px !important; color:red;"></span>
+                            
+                         
+                           @if (Session["log"] != null){
+                            <p><input id="disable2" type="button" onclick="resetBidTime2(uni5)" value="Bid" class="btn btn-default add-to-cart"/></p>}
+                     else{
+                           <p> <button class="btn btn-default add-to-cart" onclick="location.href='@Url.Action("login", "Home")';return false;">Login</button></p>}     
+                    </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                            
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                        if(ViewBag.a==4){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div class="productinfo text-center">
+                 <img src='@x' alt="" />
+                    
+                 <h2>@item.BasePrice</h2>
+                    <script>
+                        (d3(@item.BiddingTime));
+                        </script>
+                    <span id="new3" style="font-size: 50px !important; color:red;"></span>
+                  
+              
+                    
+                             <p><a href="#" class="btn btn-default add-to-cart">Bid</a></p>
+                         </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                            
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                        if(ViewBag.a==5){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div class="productinfo text-center">
+                 <img src='@x' alt="" />
+                    
+                <h2>@item.BasePrice</h2>
+                    <script>
+                        d4(@item.BiddingTime);
+                        </script>
+                    <span id="new4" style="font-size: 50px !important; color:red;"></span>
+              
+                    
+                             <p><a href="#" class="btn btn-default add-to-cart">Bid</a></p>
+                         </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                            
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                    if(ViewBag.a==6){
+ <div class="col-sm-4">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div class="productinfo text-center">
+                 <img src='@x' alt="" />
+                    
+                  <h2>@item.BasePrice</h2>
+                    <script>
+                        d5(@item.BiddingTime);
+                        </script>
+                    <span id="new5" style="font-size: 50px !important; color:red;"></span>
+              
+              
+                    
+                             <div><form><p><input type="submit" value="Bid" href="#" class="btn btn-default add-to-cart"/></p></form></div>
+                         </div>
+                    
+                     </div>
+                     <div class="choose">
+                         <ul class="nav nav-pills nav-justified">
+                            
+                         </ul>
+                     </div>
+                 </div>
+                  </div>}
+                     ViewBag.a=ViewBag.a+1;      
+                     }  
+                     }
+
+                </div>
+                <!--features_items-->
+
+              
+                <div class="recommended_items">
+                    <!--recommended_items-->
+                    <h2 class="title text-center"></h2>
+
+                    <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                          
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                               
+                                                <h2></h2>
+                                                <p></p>
+                                               
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                               
+                                                <h2></h2>
+                                                <p></p>
+                                              
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                              
+                                                <h2></h2>
+                                                <p></p>
+                                              
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <!--/recommended_items-->
+
+            </div>
+        </div>
+    </div>
+</section>

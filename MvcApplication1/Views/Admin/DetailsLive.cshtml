@@ -1,0 +1,123 @@
+﻿@model MvcApplication1.Models.Product
+
+@{
+    ViewBag.Title = "DetailsLive";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+<h2>DetailsLive</h2>
+<section id="form">
+<fieldset>
+    <legend>Product</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProductName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProductName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Details)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Details)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FileName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileName)
+    </div>
+     <div class="display-label">
+         @Html.DisplayNameFor(model => model.ImageData)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ImageData)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BiddingTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BiddingTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CountClick)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CountClick)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BasePrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BasePrice)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BiddingPrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BiddingPrice)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BuyerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BuyerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SellerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SellerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+</fieldset>
+<p>
+  
+    @Html.ActionLink("Back to List", "LiveAuction")
+</p>
+    </section>

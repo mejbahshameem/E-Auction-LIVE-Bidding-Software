@@ -1,0 +1,67 @@
+﻿@model MvcApplication1.Models.Sold
+
+@{
+    ViewBag.Title = "DetailsSoldProduct";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+<head>
+    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
+</head>
+
+<h2>DetailsSoldProduct</h2>
+<section id="form">
+<fieldset>
+    <legend>Sold</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.productID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.productID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FileName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BuyerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BuyerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SellerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SellerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "SoldProduct")
+</p>
+    </section>
