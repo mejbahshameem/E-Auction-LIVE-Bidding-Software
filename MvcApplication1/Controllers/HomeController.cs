@@ -1,13 +1,11 @@
 using MvcApplication1.Models;
+using MvcApplication1.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Text;
-using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,6 +17,7 @@ namespace MvcApplication1.Controllers
         public static int ibc = 0;
         
         private actionDbContext db = new actionDbContext();
+        private readonly AppEmailService emailService = new AppEmailService();
         public static String pr1buyer=null;
         public static String pr2buyer = null;
         public static int i1 = 0;
@@ -144,6 +143,40 @@ namespace MvcApplication1.Controllers
 
             ViewBag.CategoryData = categoryData;
         }
+
+        private String GetEmailForUser(String userName)
+        {
+            if (String.IsNullOrWhiteSpace(userName))
+            {
+                return null;
+            }
+
+            return db.reg
+                .Where(v => v.UserName.Equals(userName))
+                .Select(v => v.Email)
+                .FirstOrDefault();
+        }
+
+        private void NotifyAuctionClosed(Product product, Sold soldProduct, String winnerUserName)
+        {
+            var winnerEmail = GetEmailForUser(winnerUserName);
+            if (!String.IsNullOrWhiteSpace(winnerEmail))
+            {
+                emailService.TrySend(
+                    winnerEmail,
+                    "LIVE BID WINNER!",
+                    "Your are the higest bidder for the product " + product.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks");
+            }
+
+            var sellerEmail = GetEmailForUser(soldProduct.SellerName);
+            if (!String.IsNullOrWhiteSpace(sellerEmail))
+            {
+                emailService.TrySend(
+                    sellerEmail,
+                    "LIVE BID PRODUCT SOLD!",
+                    "Your product " + product.ProductName + " has been sold for the price " + soldProduct.Price + ". Please contact us ASAP for further Information.Thanks");
+            }
+        }
         
         public ActionResult updateBidTime(String timer,String id,String price,String counter) {
             float fl = float.Parse(price);
@@ -189,56 +222,7 @@ namespace MvcApplication1.Controllers
                         db.sales.Add(soldproduct);
                         db.SaveChanges();
                         i1 = 1;
-                        string a = null;
-                        var r = db.reg.Where(v => v.UserName.Equals(pr1buyer));
-                        foreach (var item in r)
-                        {
-                            a = item.Email;
-                        }
-
-                        SmtpClient smtp = new SmtpClient(" smtp.gmail.com", 587);
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message = new MailMessage();
-
-                        message.To.Add(a);
-                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message.Subject = "LIVE BID WINNER!";
-                        message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
-                        System.Diagnostics.Debug.WriteLine(a + message.Body);
-
-                        smtp.Send(message);
-
-                        string ab = null;
-                        var r1 = db.reg.Where(v => v.UserName.Equals(soldproduct.SellerName));
-                        foreach (var item in r)
-                        {
-                            ab = item.Email;
-                        }
-
-
-                        SmtpClient smtp1 = new SmtpClient(" smtp.gmail.com", 587);
-
-                        smtp1.EnableSsl = true;
-                        smtp1.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message1 = new MailMessage();
-
-                        message1.To.Add(ab);
-                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message1.Subject = "LIVE BID PRODUCT SOLD!";
-                        message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
-
-
-                        smtp.Send(message1);
+                        NotifyAuctionClosed(prd, soldproduct, pr1buyer);
 
                     }
                 }
@@ -302,56 +286,7 @@ namespace MvcApplication1.Controllers
                         db.sales.Add(soldproduct);
                         db.SaveChanges();
                         i2 = 1;
-                        string a = null;
-                        var r = db.reg.Where(v => v.UserName.Equals(pr1buyer));
-                        foreach (var item in r)
-                        {
-                            a = item.Email;
-                        }
-
-                        SmtpClient smtp = new SmtpClient(" smtp.gmail.com", 587);
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message = new MailMessage();
-
-                        message.To.Add(a);
-                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message.Subject = "LIVE BID WINNER!";
-                        message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
-                        System.Diagnostics.Debug.WriteLine(a + message.Body);
-
-                        smtp.Send(message);
-
-                        string ab = null;
-                        var r1 = db.reg.Where(v => v.UserName.Equals(soldproduct.SellerName));
-                        foreach (var item in r)
-                        {
-                            ab = item.Email;
-                        }
-
-
-                        SmtpClient smtp1 = new SmtpClient(" smtp.gmail.com", 587);
-
-                        smtp1.EnableSsl = true;
-                        smtp1.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message1 = new MailMessage();
-
-                        message1.To.Add(ab);
-                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message1.Subject = "LIVE BID PRODUCT SOLD!";
-                        message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
-
-
-                        smtp.Send(message1);
+                        NotifyAuctionClosed(prd, soldproduct, pr2buyer);
 
                     }
                 }
@@ -414,56 +349,7 @@ namespace MvcApplication1.Controllers
                         db.sales.Add(soldproduct);
                         db.SaveChanges();
                         i3 = 1;
-                        string a = null;
-                        var r = db.reg.Where(v => v.UserName.Equals(pr1buyer));
-                        foreach (var item in r)
-                        {
-                            a = item.Email;
-                        }
-
-                        SmtpClient smtp = new SmtpClient(" smtp.gmail.com", 587);
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message = new MailMessage();
-
-                        message.To.Add(a);
-                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message.Subject = "LIVE BID WINNER!";
-                        message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
-                        System.Diagnostics.Debug.WriteLine(a + message.Body);
-
-                        smtp.Send(message);
-
-                        string ab = null;
-                        var r1 = db.reg.Where(v => v.UserName.Equals(soldproduct.SellerName));
-                        foreach (var item in r)
-                        {
-                            ab = item.Email;
-                        }
-
-
-                        SmtpClient smtp1 = new SmtpClient(" smtp.gmail.com", 587);
-
-                        smtp1.EnableSsl = true;
-                        smtp1.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message1 = new MailMessage();
-
-                        message1.To.Add(ab);
-                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message1.Subject = "LIVE BID PRODUCT SOLD!";
-                        message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
-
-
-                        smtp.Send(message1);
+                        NotifyAuctionClosed(prd, soldproduct, pr3buyer);
 
                     }
                 }
