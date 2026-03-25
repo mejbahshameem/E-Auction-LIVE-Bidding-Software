@@ -1,10 +1,8 @@
 using MvcApplication1.Models;
+using MvcApplication1.Services;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,6 +13,20 @@ namespace MvcApplication1.Controllers
         public static int postreqid=0;
         public static int success = 0;
         private actionDbContext db = new actionDbContext();
+        private readonly AppEmailService emailService = new AppEmailService();
+
+        private String GetEmailForUser(String userName)
+        {
+            if (String.IsNullOrWhiteSpace(userName))
+            {
+                return null;
+            }
+
+            return db.reg
+                .Where(v => v.UserName.Equals(userName))
+                .Select(v => v.Email)
+                .FirstOrDefault();
+        }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -52,30 +64,14 @@ namespace MvcApplication1.Controllers
                         db.products.Add(product);
                         db.SaveChanges();
                         success = 1;
-                        string a = null ;
-                        var r = db.reg.Where(v => v.UserName.Equals(product.SellerName));
-                        foreach (var item in r)
+                        var sellerEmail = GetEmailForUser(product.SellerName);
+                        if (!String.IsNullOrWhiteSpace(sellerEmail))
                         {
-                         a=item.Email;
+                            emailService.TrySend(
+                                sellerEmail,
+                                "LIVE BID!",
+                                "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.");
                         }
-                        SmtpClient smtp = new SmtpClient(" smtp.gmail.com", 587);
-
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-                        
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message = new MailMessage();
-
-                        message.To.Add(a);
-                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message.Subject = "LIVE BID!";
-                        message.Body = "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.";
-
-
-                        smtp.Send(message);
                         return RedirectToAction("Table");
                     }
                 
@@ -259,52 +255,20 @@ namespace MvcApplication1.Controllers
                         var r1 = db.alerts.Where(v => v.FavouriteCategory.Equals(product.Category));
                         foreach (var item1 in r1)
                         {
-                            SmtpClient smtp1 = new SmtpClient(" smtp.gmail.com", 587);
-
-                            smtp1.EnableSsl = true;
-                            smtp1.Timeout = 100000;
-
-                            smtp1.DeliveryMethod = SmtpDeliveryMethod.Network;
-                            smtp1.UseDefaultCredentials = false;
-
-                            smtp1.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                            MailMessage message1 = new MailMessage();
-
-                            message1.To.Add(item1.Email);
-                            message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                            message1.Subject = "LIVE BID!";
-                            message1.Body = "NEW product in"+item1.FavouriteCategory+" Section. Please Visit our website! ";
-
-
-                            smtp1.Send(message1);
+                            emailService.TrySend(
+                                item1.Email,
+                                "LIVE BID!",
+                                "NEW product in " + item1.FavouriteCategory + " Section. Please Visit our website!");
 
                         }
-                        string a = null;
-                        var r = db.reg.Where(v => v.UserName.Equals(bdr.SellerName));
-                        foreach (var item in r)
+                        var sellerEmail = GetEmailForUser(bdr.SellerName);
+                        if (!String.IsNullOrWhiteSpace(sellerEmail))
                         {
-                            a = item.Email;
+                            emailService.TrySend(
+                                sellerEmail,
+                                "LIVE BID!",
+                                "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.");
                         }
-
-                        
-                        SmtpClient smtp = new SmtpClient(" smtp.gmail.com", 587);
-
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 100000;
-
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
-                      
-                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
-                        MailMessage message = new MailMessage();
-
-                        message.To.Add(a);
-                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
-                        message.Subject = "LIVE BID!";
-                        message.Body = "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.";
-
-
-                        smtp.Send(message);
                         return RedirectToAction("Table");
                     }
                 }
