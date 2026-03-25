@@ -1,0 +1,45 @@
+name: Auto Tag On Master Merge
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create and push version tag
+        id: tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          DATE_UTC="$(date -u +'%Y.%m.%d')"
+          BASE_TAG="v${DATE_UTC}"
+          INDEX=1
+
+          while git rev-parse "${BASE_TAG}.${INDEX}" >/dev/null 2>&1; do
+            INDEX=$((INDEX + 1))
+          done
+
+          NEW_TAG="${BASE_TAG}.${INDEX}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git tag -a "${NEW_TAG}" -m "Auto tag for merge to master"
+          git push origin "${NEW_TAG}"
+
+          echo "created_tag=${NEW_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Show created tag
+        run: echo "Created tag ${{ steps.tag.outputs.created_tag }}"
