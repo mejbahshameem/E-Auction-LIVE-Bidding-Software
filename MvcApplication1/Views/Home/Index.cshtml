@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_mytemplate.cshtml";
+    var categoryData = ViewBag.CategoryData as IEnumerable<System.Collections.Generic.KeyValuePair<string, int>>;
+    var selectedCategory = ViewBag.SelectedCategory as string;
 }
 
     
@@ -524,51 +526,27 @@
                 <div class="left-sidebar">
                     <h2>Search Products By Category</h2>
                     <div class="panel-group category-products" id="accordian">
-                        <!--category-productsr-->
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                   <a href="~/Home/SearchHD">Home Decor</a>
+                                    <a href="@Url.Action("Index", "Home")">All Categories</a>
                                 </h4>
                             </div>
-                            
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a href="~/Home/SearchGVTA">Government Products</a>
-                                </h4>
-                            </div>
-                          
-                        </div>
-
-                        <div class="panel panel-default">
-                            
-                            <div id="womens" class="panel-collapse collapse">
-                               
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                           
-                        </div>
-                        <div class="panel panel-default">
-                           
-                        </div>
-                        <div class="panel panel-default">
-                          
-                        </div>
-                        <div class="panel panel-default">
-                          
-                        </div>
-                        <div class="panel panel-default">
-                            
-                        </div>
-                        <div class="panel panel-default">
-                           
-                        </div>
-                        <div class="panel panel-default">
-                           
-                        </div>
+                        @if (categoryData != null)
+                        {
+                            foreach (var category in categoryData)
+                            {
+                                var isSelected = !String.IsNullOrWhiteSpace(selectedCategory) && selectedCategory.Equals(category.Key, StringComparison.OrdinalIgnoreCase);
+                                <div class="panel panel-default @(isSelected ? "active-category" : "")">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a href="@Url.Action("SearchByCategory", "Home", new { id = category.Key })">@category.Key <span class="category-count">(@category.Value)</span></a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                     
                     
@@ -586,7 +564,11 @@
             <div class="col-sm-9 padding-right">
                 <div class="features_items">
                     <!--features_items-->
-                    <h2 class="title text-center">Features Items</h2>
+                    <h2 class="title text-center">Featured Items</h2>
+                    @if (ViewBag.b != null)
+                    {
+                        <div class="alert alert-info" role="alert">@ViewBag.b</div>
+                    }
                     @{
                         
                         foreach (MvcApplication1.Models.Product item in @Model)
@@ -599,7 +581,7 @@
                
             
              if(ViewBag.a==1){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div id="bid" class="productinfo text-center">
@@ -637,7 +619,7 @@
                   </div>}
                         
              if(ViewBag.a==2){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div id="bid1" class="productinfo text-center">
@@ -675,7 +657,7 @@
                   </div>}
                            
                         if(ViewBag.a==3){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div id="bid2" class="productinfo text-center">
@@ -712,7 +694,7 @@
                  </div>
                   </div>}
                         if(ViewBag.a==4){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div class="productinfo text-center">
@@ -738,7 +720,7 @@
                  </div>
                   </div>}
                         if(ViewBag.a==5){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div class="productinfo text-center">
@@ -763,7 +745,7 @@
                  </div>
                   </div>}
                     if(ViewBag.a==6){
- <div class="col-sm-4">
+ <div class="col-sm-4 js-infinite-item">
      <div class="product-image-wrapper">
          <div class="single-products">
              <div class="productinfo text-center">
@@ -788,100 +770,101 @@
                      </div>
                  </div>
                   </div>}
+                    if(ViewBag.a>6){
+ <div class="col-sm-4 js-infinite-item">
+     <div class="product-image-wrapper">
+         <div class="single-products">
+             <div class="productinfo text-center">
+                 <img src='@x' alt="" />
+                 <h2>৳@item.BiddingPrice</h2>
+                 <p>@item.Details</p>
+                 @if (Session["log"] != null)
+                 {
+                     <p><span class="btn btn-default add-to-cart">Live</span></p>
+                 }
+                 else
+                 {
+                     <p><button class="btn btn-default add-to-cart" onclick="location.href='@Url.Action("login", "Home")';return false;">Login</button></p>
+                 }
+             </div>
+         </div>
+         <div class="choose">
+             <ul class="nav nav-pills nav-justified"></ul>
+         </div>
+     </div>
+ </div>}
                      ViewBag.a=ViewBag.a+1;      
                      }  
                      }
 
+                    <div id="products-loader" class="infinite-loader" style="display:none;">Loading more products...</div>
+                    <div id="products-end" class="infinite-end" style="display:none;">You reached the end of the catalog.</div>
                 </div>
                 <!--features_items-->
-
-              
-                <div class="recommended_items">
-                    <!--recommended_items-->
-                    <h2 class="title text-center"></h2>
-
-                    <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                          
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                               
-                                                <h2></h2>
-                                                <p></p>
-                                               
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                               
-                                                <h2></h2>
-                                                <p></p>
-                                              
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                              
-                                                <h2></h2>
-                                                <p></p>
-                                              
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
-                </div>
-                <!--/recommended_items-->
 
             </div>
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    (function () {
+        var items = document.querySelectorAll('.features_items .js-infinite-item');
+        if (!items || items.length === 0) {
+            return;
+        }
+
+        var batchSize = 6;
+        var visibleCount = 0;
+        var isLoading = false;
+        var loader = document.getElementById('products-loader');
+        var end = document.getElementById('products-end');
+
+        function hideAll() {
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.add('infinite-hidden');
+            }
+        }
+
+        function showNextBatch() {
+            if (visibleCount >= items.length || isLoading) {
+                if (visibleCount >= items.length && end) {
+                    end.style.display = 'block';
+                }
+                return;
+            }
+
+            isLoading = true;
+            if (loader) {
+                loader.style.display = 'block';
+            }
+
+            window.setTimeout(function () {
+                var nextLimit = Math.min(visibleCount + batchSize, items.length);
+                for (var i = visibleCount; i < nextLimit; i++) {
+                    items[i].classList.remove('infinite-hidden');
+                }
+                visibleCount = nextLimit;
+                isLoading = false;
+
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+                if (end && visibleCount >= items.length) {
+                    end.style.display = 'block';
+                }
+            }, 220);
+        }
+
+        function onScroll() {
+            var threshold = 240;
+            if ((window.innerHeight + window.pageYOffset) >= (document.body.offsetHeight - threshold)) {
+                showNextBatch();
+            }
+        }
+
+        hideAll();
+        showNextBatch();
+        window.addEventListener('scroll', onScroll);
+    })();
+</script>

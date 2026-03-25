@@ -4,37 +4,9 @@
     ViewBag.Title = "UserInfo";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-</style>
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-
-<h2>UserInfo</h2>
-<section  id="form">
-<table>
+<section class="admin-card">
+<h2 class="admin-title">Registered Users</h2>
+<table class="admin-table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.UserName)
@@ -54,8 +26,7 @@ th {
         <th>
             @Html.DisplayNameFor(model => model.MailAddress)
         </th>
-        <th></th>
-          <th>Select Operation</th>
+                <th>Select Operation</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -78,10 +49,7 @@ th {
         <td>
             @Html.DisplayFor(modelItem => item.MailAddress)
         </td>
-        <td>
-         
-        </td>
-        <td>
+        <td class="admin-actions">
            
             @Html.ActionLink("Delete", "UserInfo1", new { id=item.ID })
         </td>

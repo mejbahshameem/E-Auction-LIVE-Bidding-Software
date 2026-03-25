@@ -2,14 +2,64 @@
     ViewBag.Title = "ContactUs";
     Layout = "~/Views/Shared/_mytemplate.cshtml";
 }
-</br></br></br></br>
-<title>E-Auction | Contact US</title>
-<h2 align="center" style="color:blue;">For Help & Support</h2>
 
-<h3 align="center" >Call US: </h3>
-<h3 align="center" style="color:red;">+880 1675965001 </h3>
-<h3 align="center" style="color:red;">+880 1675315160 </h3>
-<h3 align="center" style="color:red;">+880 1533188158 </h3>
-    
-   
-</br></br></br></br>
+<title>E-Auction | Contact US</title>
+
+<section class="contact-shell">
+    <div class="container">
+        <div class="contact-hero">
+            <h1>Contact E-Auction Support</h1>
+            <p>Need help with bidding, account access, or seller requests? We usually respond within one business day.</p>
+        </div>
+
+        @if (TempData["ContactSuccess"] != null)
+        {
+            <div class="alert alert-success" role="alert">@TempData["ContactSuccess"]</div>
+        }
+
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="support-card">
+                    <h3>Call Support</h3>
+                    <p><strong>+880 1675965001</strong></p>
+                    <p><strong>+880 1675315160</strong></p>
+                    <p><strong>+880 1533188158</strong></p>
+                </div>
+
+                <div class="support-card">
+                    <h3>Working Hours</h3>
+                    <p>Sat - Thu: 9:00 AM - 8:00 PM</p>
+                    <p>Friday: Emergency support only</p>
+                </div>
+
+                <div class="support-card">
+                    <h3>Quick Help</h3>
+                    <p><a href="@Url.Action("OnlineHelp", "Home")">Online Help</a></p>
+                    <p><a href="@Url.Action("Faqs", "Home")">FAQs</a></p>
+                    <p><a href="@Url.Action("OrderStatus", "Home")">Order Status</a></p>
+                </div>
+            </div>
+
+            <div class="col-sm-7">
+                <div class="support-form-card">
+                    <h3>Send a Message</h3>
+                    @using (Html.BeginForm("ContactUs", "Home", FormMethod.Post, new { @class = "support-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" name="fullName" placeholder="Your Name" required />
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="email" name="email" placeholder="Email Address" required />
+                            </div>
+                        </div>
+                        <input type="text" name="subject" placeholder="Subject" required />
+                        <textarea name="message" rows="6" placeholder="Tell us what you need help with" required></textarea>
+                        <button type="submit" class="btn btn-default add-to-cart">Submit Request</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

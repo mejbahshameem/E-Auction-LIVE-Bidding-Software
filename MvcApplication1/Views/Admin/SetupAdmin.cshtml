@@ -1,0 +1,30 @@
+@{
+    ViewBag.Title = "Setup Admin";
+    Layout = "~/Views/Shared/_admin.cshtml";
+}
+
+<div class="admin-card" style="max-width:620px; margin:0 auto;">
+    <h2 class="admin-title">Local Admin Setup</h2>
+    <p>This page is available only from localhost and can create or reset an admin password.</p>
+
+    @if (ViewBag.SetupError != null)
+    {
+        <p class="text-danger">@ViewBag.SetupError</p>
+    }
+
+    @using (Html.BeginForm("SetupAdmin", "Admin", FormMethod.Post, new { @class = "admin-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <label for="setup-user">User Name</label>
+        <input id="setup-user" type="text" name="un" placeholder="admin" required />
+
+        <label for="setup-password">Password</label>
+        <input id="setup-password" type="password" name="pd" placeholder="New password" required />
+
+        <input type="submit" value="Save Admin" />
+    }
+
+    <p style="margin-top:14px;">
+        @Html.ActionLink("Back to login", "Index", "Admin", null, new { @class = "admin-btn admin-btn-secondary" })
+    </p>
+</div>

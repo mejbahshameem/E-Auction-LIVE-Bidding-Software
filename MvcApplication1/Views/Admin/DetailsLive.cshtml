@@ -4,18 +4,8 @@
     ViewBag.Title = "DetailsLive";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-
-<h2>DetailsLive</h2>
-<section id="form">
+<section class="admin-card">
+<h2 class="admin-title">Live Auction Item Details</h2>
 <fieldset>
     <legend>Product</legend>
 
@@ -117,7 +107,6 @@
     </div>
 </fieldset>
 <p>
-  
-    @Html.ActionLink("Back to List", "LiveAuction")
+    @Html.ActionLink("Back to List", "LiveAuction", null, new { @class = "admin-btn admin-btn-secondary" })
 </p>
     </section>

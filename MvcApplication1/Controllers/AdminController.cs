@@ -1,6 +1,7 @@
-﻿using MvcApplication1.Models;
+using MvcApplication1.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -14,6 +15,24 @@ namespace MvcApplication1.Controllers
         public static int postreqid=0;
         public static int success = 0;
         private actionDbContext db = new actionDbContext();
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var action = filterContext.ActionDescriptor.ActionName;
+            if (action.Equals("Index", StringComparison.OrdinalIgnoreCase) || action.Equals("SetupAdmin", StringComparison.OrdinalIgnoreCase))
+            {
+                base.OnActionExecuting(filterContext);
+                return;
+            }
+
+            if (Session["log1"] == null)
+            {
+                filterContext.Result = RedirectToAction("Index");
+                return;
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
 
 
         //
@@ -47,11 +66,11 @@ namespace MvcApplication1.Controllers
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
                         
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message = new MailMessage();
 
                         message.To.Add(a);
-                        message.From = new MailAddress("eauction597@gmail.com");
+                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message.Subject = "LIVE BID!";
                         message.Body = "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.";
 
@@ -89,7 +108,7 @@ namespace MvcApplication1.Controllers
             Product rg = db.products.Find(id);
             if (rg != null)
             {
-                return View();
+                return View(rg);
 
             }
 
@@ -134,11 +153,23 @@ namespace MvcApplication1.Controllers
             Sold rg = db.sales.Find(id);
             if (rg != null)
             {
-                return View();
+                return View(rg);
 
             }
 
             return RedirectToAction("Table");
+        }
+
+        public ActionResult DeleteSoldProduct(int id)
+        {
+            Sold sold = db.sales.Find(id);
+            if (sold != null)
+            {
+                db.sales.Remove(sold);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("SoldProduct");
         }
         public ActionResult UserInfo1(int id)
         {
@@ -154,6 +185,12 @@ namespace MvcApplication1.Controllers
         }
         public ActionResult Table()
         {
+            ViewBag.TotalBidRequests = db.requests.Count();
+            ViewBag.TotalUsers = db.reg.Count();
+            ViewBag.TotalSold = db.sales.Count();
+            ViewBag.TotalLive = db.products.Count();
+            ViewBag.TotalAlerts = db.alerts.Count();
+
             if (success == 1)
             {
                 ViewBag.success = 1;
@@ -230,11 +267,11 @@ namespace MvcApplication1.Controllers
                             smtp1.DeliveryMethod = SmtpDeliveryMethod.Network;
                             smtp1.UseDefaultCredentials = false;
 
-                            smtp1.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                            smtp1.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                             MailMessage message1 = new MailMessage();
 
                             message1.To.Add(item1.Email);
-                            message1.From = new MailAddress("eauction597@gmail.com");
+                            message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                             message1.Subject = "LIVE BID!";
                             message1.Body = "NEW product in"+item1.FavouriteCategory+" Section. Please Visit our website! ";
 
@@ -258,11 +295,11 @@ namespace MvcApplication1.Controllers
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
                       
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message = new MailMessage();
 
                         message.To.Add(a);
-                        message.From = new MailAddress("eauction597@gmail.com");
+                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message.Subject = "LIVE BID!";
                         message.Body = "Your product now in Live Auction. Please See Home of E-AUCTION for further confirmation.";
 
@@ -304,6 +341,49 @@ namespace MvcApplication1.Controllers
         {
             return View();
         }
+
+        public ActionResult SetupAdmin()
+        {
+            if (!Request.IsLocal)
+            {
+                return new HttpStatusCodeResult(403);
+            }
+
+            ViewBag.HasAdmin = db.admins.Any();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetupAdmin(String un, String pd)
+        {
+            if (!Request.IsLocal)
+            {
+                return new HttpStatusCodeResult(403);
+            }
+
+            if (String.IsNullOrWhiteSpace(un) || String.IsNullOrWhiteSpace(pd))
+            {
+                ViewBag.SetupError = "User name and password are required.";
+                ViewBag.HasAdmin = db.admins.Any();
+                return View();
+            }
+
+            var admin = db.admins.FirstOrDefault(v => v.UserName.Equals(un));
+            if (admin == null)
+            {
+                db.admins.Add(new Admin { UserName = un, Password = pd });
+            }
+            else
+            {
+                admin.Password = pd;
+            }
+
+            db.SaveChanges();
+            TempData["AdminSetupSuccess"] = "Admin credentials saved. You can now login.";
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public ActionResult Index(String un,String pd)
         {
@@ -361,3 +441,5 @@ namespace MvcApplication1.Controllers
 
     }
 }
+
+

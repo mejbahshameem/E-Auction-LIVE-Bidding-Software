@@ -4,39 +4,12 @@
     ViewBag.Title = "BidRequest";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-</style>
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-<h2>BidRequest</h2>
-<section  id="form">
+<section class="admin-card">
+<h2 class="admin-title">Bid Requests</h2>
 
 
 
-<table>
+<table class="admin-table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.SellerName)
@@ -59,8 +32,7 @@ th {
         <th>
             @Html.DisplayNameFor(model => model.MaxTime)
         </th>
-        <th></th>
-         <th>Select Operation</th>
+        <th>Select Operation</th>
          
     </tr>
 
@@ -90,8 +62,8 @@ th {
         <td>
             @Html.DisplayFor(modelItem => item.MaxTime)
         </td>
-        <td>
-            @Html.ActionLink("Post in Live Bid Home", "postreq", new { id=item.ID }) |
+        <td class="admin-actions">
+            @Html.ActionLink("Post Live", "postreq", new { id=item.ID })
             @Html.ActionLink("Delete", "Deletereq", new { id=item.ID })
         </td>
     </tr>

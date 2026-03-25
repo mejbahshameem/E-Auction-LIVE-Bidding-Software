@@ -1,139 +1,61 @@
 ﻿<!doctype html>
 <html>
-    @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
- @RenderSection("scripts", required: false)
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Auction Admin</title>
 
-    <head>
-    <meta charset="utf-8">
-    <title>BLOCKS - Bootstrap Dashboard Theme</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Carlos Alvarez - Alvarez.is">
+  <link rel="stylesheet" type="text/css" href="~/Content/admintemplate/bootstrap/css/bootstrap.min.css" />
+  <link href="~/Content/admintemplate/css/main.css" rel="stylesheet">
+  <link href="~/Content/admintemplate/css/modern-admin.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="~/Content/admintemplate/bootstrap/css/bootstrap.min.css" />
+  <script type="text/javascript" src="~/Content/admintemplate/js/jquery.js"></script>
+  <script type="text/javascript" src="~/Content/admintemplate/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body class="admin-body">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Table", "Admin")">E-Auction Admin</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          @if (Session["log1"] != null)
+          {
+            <li><a href="@Url.Action("Table", "Admin")">Dashboard</a></li>
+            <li><a href="@Url.Action("BidRequest", "Admin")">Bid Requests</a></li>
+            <li><a href="@Url.Action("LiveAuction", "Admin")">Live Auction</a></li>
+            <li><a href="@Url.Action("SoldProduct", "Admin")">Sold Products</a></li>
+            <li><a href="@Url.Action("UserInfo", "Admin")">Users</a></li>
+            <li><a href="@Url.Action("AuctionAlert1", "Admin")">Alerts</a></li>
+            <li><a href="@Url.Action("logout", "Admin")">Logout</a></li>
+          }
+          else
+          {
+            <li><a href="@Url.Action("Index", "Admin")">Login</a></li>
+          }
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <link href="~/Content/admintemplate/css/main.css" rel="stylesheet">
-    <link href="~/Content/admintemplate/css/font-style.css" rel="stylesheet">
-    <link href="~/Content/admintemplate/css/flexslider.css" rel="stylesheet">
+  <div class="admin-shell">
+    @RenderBody()
+  </div>
 
-    <script type="text/javascript" src="~/Content/admintemplate/js/jquery.js"></script>    
-    <script type="text/javascript" src="~/Content/admintemplate/bootstrap/js/bootstrap.min.js"></script>
-
-	<script type="text/javascript" src="~/Content/admintemplate/js/lineandbars.js"></script>
-    
-	<script type="text/javascript" src="~/Content/admintemplate/js/dash-charts.js"></script>
-	<script type="text/javascript" src="~/Content/admintemplate/js/gauge.js"></script>
-	
-	<!-- NOTY JAVASCRIPT -->
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/jquery.noty.js"></script>
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/layouts/top.js"></script>
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/layouts/topLeft.js"></script>
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/layouts/topRight.js"></script>
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/layouts/topCenter.js"></script>
-	
-	<!-- You can add more layouts if you want -->
-	<script type="text/javascript" src="~/Content/admintemplate/js/noty/themes/default.js"></script>
-    <!-- <script type="text/javascript" src="assets/js/dash-noty.js"></script> This is a Noty bubble when you init the theme-->
-	<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
-	<script src="~/Content/admintemplate/js/jquery.flexslider.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="~/Content/admintemplate/js/admin.js"></script>
-      
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-      }
-    </style>
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-   
-
-  	<!-- Google Fonts call. Font Used Open Sans & Raleway -->
-	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
-  	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $("#btn-blog-next").click(function () {
-            $('#blogCarousel').carousel('next')
-        });
-        $("#btn-blog-prev").click(function () {
-            $('#blogCarousel').carousel('prev')
-        });
-
-        $("#btn-client-next").click(function () {
-            $('#clientCarousel').carousel('next')
-        });
-        $("#btn-client-prev").click(function () {
-            $('#clientCarousel').carousel('prev')
-        });
-
-    });
-
-    $(window).load(function () {
-
-        $('.flexslider').flexslider({
-            animation: "slide",
-            slideshow: true,
-            start: function (slider) {
-                $('body').removeClass('loading');
-            }
-        });
-    });
-
-</script>    
-  </head>
-  
-  
-  	<!-- NAVIGATION MENU -->
-
-    <div class="navbar-nav navbar-inverse navbar-fixed-top">
-        <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">E-Auction Dashboard</a>
-        </div> 
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                 @if (Session["log1"] != null)  {
-              <li class="active"><a href="~/Admin/logout"><i class="icon-home icon-white"></i> Logout</a></li>   }   
-                  @if (Session["log1"] == null)  {
-              <li class="active"><a href="~/Admin/Index"><i class="icon-home icon-white"></i> Login</a></li>   }                         
-               @if (Session["log1"] != null)  { <li class="active"><a href="~/Admin/Table"><i class="icon-th icon-white"></i> Tables</a></li>}
-             
-
-            </ul>
-          </div><!--/.nav-collapse -->
+  <footer id="footerwrap" class="admin-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <p>E-Auction Admin Panel | Built for modern auction operations</p>
         </div>
+      </div>
     </div>
-       
-    <div>
-        @RenderBody()
-        
-    </div>
-    <div id="footerwrap">
-      	<footer class="clearfix"></footer>
-      	<div class="container">
-      		<div class="row">
-      			<div class="col-sm-12 col-lg-12">
-      			
-      			<p>Dashboard Copyright E-AUCTION</p>
-      			</div>
-
-      		</div><!-- /row -->
-      	</div><!-- /container -->		
-	</div><!-- /footerwrap -->
-          
+  </footer>
+</body>
 </html>
