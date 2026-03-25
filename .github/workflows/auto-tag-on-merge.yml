@@ -23,15 +23,19 @@ jobs:
         run: |
           set -euo pipefail
 
-          DATE_UTC="$(date -u +'%Y.%m.%d')"
-          BASE_TAG="v${DATE_UTC}"
-          INDEX=1
+          LATEST_TAG="$(git tag -l 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)"
 
-          while git rev-parse "${BASE_TAG}.${INDEX}" >/dev/null 2>&1; do
-            INDEX=$((INDEX + 1))
-          done
-
-          NEW_TAG="${BASE_TAG}.${INDEX}"
+          if [ -z "${LATEST_TAG}" ]; then
+            NEW_TAG="v1.0.0"
+          else
+            VERSION="${LATEST_TAG#v}"
+            MAJOR="${VERSION%%.*}"
+            REST="${VERSION#*.}"
+            MINOR="${REST%%.*}"
+            PATCH="${REST##*.}"
+            PATCH="$((PATCH + 1))"
+            NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
