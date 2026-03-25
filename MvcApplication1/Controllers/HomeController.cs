@@ -1,4 +1,4 @@
-﻿using MvcApplication1.Models;
+using MvcApplication1.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 
@@ -74,39 +75,48 @@ namespace MvcApplication1.Controllers
         }
         public ActionResult myAccount()
         {
+            String user = (string)(Session["log"]);
+            if (!String.IsNullOrWhiteSpace(user))
+            {
+                ViewBag.BuyCount = db.sales.Count(v => v.BuyerName.Equals(user));
+                ViewBag.SoldCount = db.sales.Count(v => v.SellerName.Equals(user));
+                ViewBag.LiveCount = db.products.Count(v => v.SellerName.Equals(user) && v.Status != null && v.Status.Equals("live"));
+                ViewBag.AlertCount = db.alerts.Count(v => v.UserName.Equals(user));
+            }
+
             return View();
         }
         public ActionResult SearchGVTA()
         {
-            ViewBag.a = 1;
-            ViewBag.c = 1;
-            String a = "GovernmentProduct";
-            var item = db.products.Where(v => v.Category.Equals(a));
-            var list = item.ToList();
-            if (list == null)
-            {
-                System.Diagnostics.Debug.WriteLine("hiiiiiiiiiiiiiiiii");
-                ViewBag.c = 0;
-               
-            }
-            return View(list);
+            return RedirectToAction("SearchByCategory", new { id = "GovernmentProduct" });
         }
         public ActionResult SearchHD()
         {
+            return RedirectToAction("SearchByCategory", new { id = "HomeDecor" });
+        }
+
+        public ActionResult SearchByCategory(String id)
+        {
             ViewBag.a = 1;
-            String a = "HomeDecor";
-            var item = db.products.Where(v => v.Category.Equals(a));
-            var list = item.ToList();
-            if (list == null)
+            var allProducts = db.products.ToList();
+            PopulateCategorySummary(allProducts);
+
+            if (String.IsNullOrWhiteSpace(id))
             {
-                ViewBag.b="No live Auction in your searched category.";
+                return View("Index", allProducts);
             }
-            return View(list);
+
+            var list = allProducts.Where(v => v.Category != null && v.Category.Equals(id, StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.SelectedCategory = id;
+            if (!list.Any())
+            {
+                ViewBag.b = "No live Auction in your searched category.";
+            }
+
+            return View("Index", list);
         }
         public ActionResult Index()
         {
-            
-        
             ViewBag.a = 1;
             if (ibc == 1)
             {
@@ -115,9 +125,24 @@ namespace MvcApplication1.Controllers
                 ViewBag.k = ibc;
                 ibc = 0;
             }
-          
-            return View(db.products.ToList());
+
+            var products = db.products.OrderByDescending(v => v.ID).ToList();
+            PopulateCategorySummary(products);
+            return View(products);
         
+        }
+
+        private void PopulateCategorySummary(List<Product> products)
+        {
+            var categoryData = products
+                .Where(v => !String.IsNullOrWhiteSpace(v.Category))
+                .GroupBy(v => v.Category)
+                .Select(v => new KeyValuePair<String, Int32>(v.Key, v.Count()))
+                .OrderByDescending(v => v.Value)
+                .ThenBy(v => v.Key)
+                .ToList();
+
+            ViewBag.CategoryData = categoryData;
         }
         
         public ActionResult updateBidTime(String timer,String id,String price,String counter) {
@@ -178,11 +203,11 @@ namespace MvcApplication1.Controllers
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
 
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message = new MailMessage();
 
                         message.To.Add(a);
-                        message.From = new MailAddress("eauction597@gmail.com");
+                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message.Subject = "LIVE BID WINNER!";
                         message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
                         System.Diagnostics.Debug.WriteLine(a + message.Body);
@@ -204,11 +229,11 @@ namespace MvcApplication1.Controllers
 
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message1 = new MailMessage();
 
                         message1.To.Add(ab);
-                        message1.From = new MailAddress("eauction597@gmail.com");
+                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message1.Subject = "LIVE BID PRODUCT SOLD!";
                         message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
 
@@ -291,11 +316,11 @@ namespace MvcApplication1.Controllers
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
 
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message = new MailMessage();
 
                         message.To.Add(a);
-                        message.From = new MailAddress("eauction597@gmail.com");
+                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message.Subject = "LIVE BID WINNER!";
                         message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
                         System.Diagnostics.Debug.WriteLine(a + message.Body);
@@ -317,11 +342,11 @@ namespace MvcApplication1.Controllers
 
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message1 = new MailMessage();
 
                         message1.To.Add(ab);
-                        message1.From = new MailAddress("eauction597@gmail.com");
+                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message1.Subject = "LIVE BID PRODUCT SOLD!";
                         message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
 
@@ -403,11 +428,11 @@ namespace MvcApplication1.Controllers
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
 
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message = new MailMessage();
 
                         message.To.Add(a);
-                        message.From = new MailAddress("eauction597@gmail.com");
+                        message.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message.Subject = "LIVE BID WINNER!";
                         message.Body = "Your are the higest bidder for the product " + prd.ProductName + ". Please contact us ASAP for delivery & payment procedure.Thanks";
                         System.Diagnostics.Debug.WriteLine(a + message.Body);
@@ -429,11 +454,11 @@ namespace MvcApplication1.Controllers
 
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential("eauction597@gmail.com", "eauction 597");
+                        smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPass"]);
                         MailMessage message1 = new MailMessage();
 
                         message1.To.Add(ab);
-                        message1.From = new MailAddress("eauction597@gmail.com");
+                        message1.From = new MailAddress(ConfigurationManager.AppSettings["SmtpFrom"] ?? ConfigurationManager.AppSettings["SmtpUser"]);
                         message1.Subject = "LIVE BID PRODUCT SOLD!";
                         message1.Body = "Your product " + prd.ProductName + " has been sold for the price " + soldproduct.Price + ". Please contact us ASAP for further Information.Thanks";
 
@@ -679,6 +704,14 @@ namespace MvcApplication1.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContactUs(String fullName, String email, String subject, String message)
+        {
+            TempData["ContactSuccess"] = "Thanks " + fullName + ". Your message has been received and our team will contact you shortly.";
+            return RedirectToAction("ContactUs");
+        }
+
         public ActionResult OnlineHelp()
         {
             return View();
@@ -881,3 +914,5 @@ namespace MvcApplication1.Controllers
         public object List { get; set; }
     }
 }
+
+

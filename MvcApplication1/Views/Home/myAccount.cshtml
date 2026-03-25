@@ -1,177 +1,109 @@
 ﻿@{
-    ViewBag.Title = "AuctionAlert";
-     Layout = "~/Views/Shared/_mytemplate.cshtml";
+    ViewBag.Title = "My Account";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
 }
+
 <title>E-Auction | Account</title>
-<style>
-    input[type="checkbox"]{
-  width: 30px; /*Desired width*/
-  height: 30px; /*Desired height*/
-  cursor: pointer;
-  
-  background-color:red;
-  
-}
-    table {
-    border-collapse: collapse;
-    width: 100%;
-	 position: relative;
- height: auto;
-margin: 10px auto;
-    padding: 0;
-}
 
-th, td {
-    text-align: left;
-    padding: 15px;
-}
-tr {
-width: 52px;
-}
-tr:nth-child(even){background-color: #f2f2f2; width: 52px;}
+<section class="account-shell">
+    <div class="container">
+        @if (Session["log"] != null)
+        {
+            <div class="account-hero">
+                <h1>Welcome back, @Session["log"]</h1>
+                <p>Manage your profile, track purchases, and monitor your sales from one place.</p>
+            </div>
 
-th {
-    background-color: #FE980F;
-    color: white;
-	font-size: 20px;
-}
-    #form1 {
-    display: block;
-    margin-bottom: 185px;
-    margin-top: 185px;
-    overflow: hidden;
-}
+            <div class="row account-stats">
+                <div class="col-sm-3">
+                    <div class="account-stat-card">
+                        <span class="label">Bought</span>
+                        <strong>@ViewBag.BuyCount</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="account-stat-card">
+                        <span class="label">Sold</span>
+                        <strong>@ViewBag.SoldCount</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="account-stat-card">
+                        <span class="label">Live Listings</span>
+                        <strong>@ViewBag.LiveCount</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="account-stat-card">
+                        <span class="label">Alert Preferences</span>
+                        <strong>@ViewBag.AlertCount</strong>
+                    </div>
+                </div>
+            </div>
 
-</style>
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-<h2>
-  
-</h2>
-@if (Session["log"] != null)
-{
- 
-  <section  id="form">
-  
-     <table>
-     <tr>
-        <th >
-          
-        </th>
-        
-        <th>
-          
-        </th>
-        
-       
-            <th >
-            Account Settings
-		</th>
-            
-       
-         <th >
-        </th>
-    </tr>
-        <tr>
-        <td>
-           
-        </td>
-        <td "width:100%";>
-         Edit My Account Info
-        </td>
-        <td>
-         
-            @Html.ActionLink("Edit Account", "EditUser")
-        </td>
-    </tr>
-          <tr>
-        <td>
-        
-        </td>
-        <td>
-           View Buy List
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Bought Products Info", "UserBuyInfo")
-        </td>
-    </tr>
-          <tr>
-        <td>
-           
-        </td>
-        <td>
-           Sold Products
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Sold Products", "UserSoldProduct")
-        </td>
-    </tr>
-         <tr>
-        <td>
-           
-        </td>
-        <td>
-         Delete Account
-        </td>
-        <td>
-         
-            @Html.ActionLink("Delete Account", "Deletecl")
-        </td>
-    </tr>
-         
-        </table>
+            <div class="row account-actions">
+                <div class="col-sm-6">
+                    <a class="account-action-card" href="@Url.Action("EditUser", "Home")">
+                        <h3>Edit Profile</h3>
+                        <p>Update your account information and contact details.</p>
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <a class="account-action-card" href="@Url.Action("UserBuyInfo", "Home")">
+                        <h3>Purchase History</h3>
+                        <p>Review products you won in live auctions.</p>
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <a class="account-action-card" href="@Url.Action("UserSoldProduct", "Home")">
+                        <h3>Sold Products</h3>
+                        <p>Track completed sales and buyer records.</p>
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <a class="account-action-card danger" href="@Url.Action("Deletecl", "Home")">
+                        <h3>Delete Account</h3>
+                        <p>Close your account permanently.</p>
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="account-hero guest">
+                <h1>Account Access</h1>
+                <p>Sign in to bid, manage listings, and receive personalized alerts.</p>
+            </div>
 
+            <section id="form">
+                <div class="row">
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <div class="login-form account-auth-card">
+                            <h2>Login</h2>
+                            @using (Html.BeginForm("login", "Home", FormMethod.Post))
+                            {
+                                <input type="text" placeholder="User Name" name="uname" />
+                                <input type="password" placeholder="Password" name="password" />
+                                <button type="submit" class="btn btn-default" name="submit">Login</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <div class="signup-form account-auth-card">
+                            <h2>Create Account</h2>
+                            @using (Html.BeginForm("Regis", "Home", FormMethod.Post))
+                            {
+                                <input type="text" placeholder="UserName" name="uname" />
+                                <input type="email" placeholder="Email Address" name="mail" />
+                                <input type="password" placeholder="Password" name="pword" />
+                                <input type="password" placeholder="Retype Password" name="cpword" />
+                                <button type="submit" class="btn btn-default" name="submit">Signup</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    </div>
 </section>
-    
-}
-else{
-  <section id="form"><!--form-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4 col-sm-offset-1">
-					<div class="login-form"><!--login form-->
-						<h2>Login And Enjoy More Privileges!</h2>
-						
-             @using (Html.BeginForm("login", "Home", FormMethod.Post))
-             {
-							<input type="text" placeholder="User Name" name="uname"/>
-							<input type="password" placeholder="Password" name="password"/>
-							
-							<button type="submit" class="btn btn-default" name="submit">Login</button>
-             }
-					</div><!--/login form-->
-				</div>
-				<div class="col-sm-1">
-					<h2 class="or">OR</h2>
-				</div>
-				<div class="col-sm-4">
-					<div class="signup-form"><!--sign up form-->
-						<h2>New to E-Auction? Signup Now!</h2>
-						 @using(Html.BeginForm("Regis","Home",FormMethod.Post)){
-                           
-							<input type="text" placeholder="UserName" name="uname"/>
-                              
-							<input type="email" placeholder="Email Address" name="mail"/>
-							<input type="password" placeholder="Password"  name="pword"/>
-                              
-                            <input type="password" placeholder="RetypePassword"  name="cpword"/>
-                              
-  							<button type="submit" class="btn btn-default" name="submit">Signup</button>
-         }
-					</div><!--/sign up form-->
-				</div>
-			</div>
-		</div>
-	</section><!--/form-->
-	
-	
-}

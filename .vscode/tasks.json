@@ -1,0 +1,84 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Restore NuGet Packages",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\.vscode\\run-legacy.ps1",
+        "-Action",
+        "Restore"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build MVCApplication1 (Debug)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\.vscode\\run-legacy.ps1",
+        "-Action",
+        "Build",
+        "-Configuration",
+        "Debug"
+      ],
+      "dependsOn": "Restore NuGet Packages",
+      "group": "build",
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
+      "label": "Run IIS Express (Port 8080)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\.vscode\\run-legacy.ps1",
+        "-Action",
+        "Run",
+        "-Port",
+        "8080"
+      ],
+      "dependsOn": "Build MVCApplication1 (Debug)",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop IIS Express",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\.vscode\\run-legacy.ps1",
+        "-Action",
+        "Stop"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Full Stack (Restore + Build + IIS)",
+      "dependsOn": [
+        "Run IIS Express (Port 8080)"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}

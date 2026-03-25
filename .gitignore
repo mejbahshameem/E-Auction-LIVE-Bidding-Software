@@ -1,0 +1,30 @@
+# Build outputs
+bin/
+obj/
+[Bb]uild/
+
+# Visual Studio / VS Code user files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IIS Express local runtime files
+.iisexpress/
+.vscode/applicationhost.local.config
+
+# NuGet restore artifacts
+*.nupkg
+
+# Logs / temp
+*.log
+*.tmp
+
+# Local SQL Server files
+*.mdf
+*.ldf
+
+# OS files
+.DS_Store
+Thumbs.db

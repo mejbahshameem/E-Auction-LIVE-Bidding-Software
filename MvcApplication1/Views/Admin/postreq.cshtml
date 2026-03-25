@@ -4,44 +4,9 @@
     ViewBag.Title = "postreq";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-    #form1 {
-    display: block;
-    margin-bottom: 185px;
-    margin-top: 61px;
-    overflow: hidden;
-    width: 50%;
-    padding-top: -49px;
-    padding-left: 72px;
-}
-</style>
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-<section id="form1">
-@using (Html.BeginForm()) {
+<section class="admin-card" style="max-width:760px;">
+<h2 class="admin-title">Post Request To Live Auction</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "admin-form" })) {
     @Html.ValidationSummary(true)
 
     <fieldset>

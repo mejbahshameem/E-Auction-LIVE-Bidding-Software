@@ -1,0 +1,49 @@
+name: Auto Tag On Master Merge
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create and push version tag
+        id: tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          LATEST_TAG="$(git tag -l 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)"
+
+          if [ -z "${LATEST_TAG}" ]; then
+            NEW_TAG="v1.0.0"
+          else
+            VERSION="${LATEST_TAG#v}"
+            MAJOR="${VERSION%%.*}"
+            REST="${VERSION#*.}"
+            MINOR="${REST%%.*}"
+            PATCH="${REST##*.}"
+            PATCH="$((PATCH + 1))"
+            NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git tag -a "${NEW_TAG}" -m "Auto tag for merge to master"
+          git push origin "${NEW_TAG}"
+
+          echo "created_tag=${NEW_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Show created tag
+        run: echo "Created tag ${{ steps.tag.outputs.created_tag }}"

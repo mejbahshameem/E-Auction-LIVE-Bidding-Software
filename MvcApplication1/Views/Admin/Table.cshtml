@@ -2,117 +2,59 @@
     ViewBag.Title = "Table";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-</style>
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-<section  id="form">
+<section class="admin-card">
+   <h2 class="admin-title">Admin Dashboard</h2>
    @if(ViewBag.success==1){
    @Html.Raw(TempData["msg"])
 }
      @if(ViewBag.success==2){
    @Html.Raw(TempData["msg"])
 }
-     <table>
-     <tr>
-        <th >
-           Table No.
-        </th>
-        
-        <th >
-             Table Name
-        </th>
-        
-       
-            <th >
-             Redirect to Table
-        
-        </th>
-    </tr>
-        <tr>
-        <td>
-           1
-        </td>
-        <td>
-          Bid Requests
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Requests", "BidRequest")
-        </td>
-    </tr>
-          <tr>
-        <td>
-           2
-        </td>
-        <td>
-            Registered Users
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Users", "UserInfo")
-        </td>
-    </tr>
-          <tr>
-        <td>
-           3
-        </td>
-        <td>
-           Sold Products
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Sold Products", "SoldProduct")
-        </td>
-    </tr>
-          <tr>
-        <td>
-           4
-        </td>
-        <td>
-           Products in LIVE AUCTION
-        </td>
-        <td>
-         
-            @Html.ActionLink("View LIVE AUCTION", "LiveAuction")
-        </td>
-    </tr>
-           <tr>
-        <td>
-           5
-        </td>
-        <td>
-         Alert for New Products 
-        </td>
-        <td>
-         
-            @Html.ActionLink("View Alerts", "AuctionAlert1")
-        </td>
-    </tr>
-        </table>
+
+    <div class="admin-kpi-grid">
+        <div class="admin-kpi-card">
+            <p class="admin-kpi-label">Bid Requests</p>
+            <h3 class="admin-kpi-value">@ViewBag.TotalBidRequests</h3>
+        </div>
+        <div class="admin-kpi-card">
+            <p class="admin-kpi-label">Registered Users</p>
+            <h3 class="admin-kpi-value">@ViewBag.TotalUsers</h3>
+        </div>
+        <div class="admin-kpi-card">
+            <p class="admin-kpi-label">Live Auctions</p>
+            <h3 class="admin-kpi-value">@ViewBag.TotalLive</h3>
+        </div>
+        <div class="admin-kpi-card">
+            <p class="admin-kpi-label">Sold Products</p>
+            <h3 class="admin-kpi-value">@ViewBag.TotalSold</h3>
+        </div>
+        <div class="admin-kpi-card">
+            <p class="admin-kpi-label">Auction Alerts</p>
+            <h3 class="admin-kpi-value">@ViewBag.TotalAlerts</h3>
+        </div>
+    </div>
+
+    <div class="admin-action-grid" style="margin-top:16px;">
+        <a class="admin-action-tile" href="@Url.Action("BidRequest", "Admin")">
+            <span class="admin-action-title">Bid Requests</span>
+            <span class="admin-action-subtitle">Review seller submissions</span>
+        </a>
+        <a class="admin-action-tile" href="@Url.Action("UserInfo", "Admin")">
+            <span class="admin-action-title">Registered Users</span>
+            <span class="admin-action-subtitle">Manage platform users</span>
+        </a>
+        <a class="admin-action-tile" href="@Url.Action("LiveAuction", "Admin")">
+            <span class="admin-action-title">Live Auction</span>
+            <span class="admin-action-subtitle">Track active listings</span>
+        </a>
+        <a class="admin-action-tile" href="@Url.Action("SoldProduct", "Admin")">
+            <span class="admin-action-title">Sold Products</span>
+            <span class="admin-action-subtitle">Review closed sales</span>
+        </a>
+        <a class="admin-action-tile" href="@Url.Action("AuctionAlert1", "Admin")">
+            <span class="admin-action-title">Auction Alerts</span>
+            <span class="admin-action-subtitle">Watch subscriptions</span>
+        </a>
+    </div>
 
 </section>

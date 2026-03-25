@@ -4,18 +4,8 @@
     ViewBag.Title = "DetailsSoldProduct";
     Layout = "~/Views/Shared/_admin.cshtml";
 }
-<head>
-    <link href="@Url.Content("~/Content/mytemplate/")css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/prettyPhoto.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/price-range.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/animate.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/main.css" rel="stylesheet">
-    <link href="@Url.Content("~/Content/mytemplate/")css/responsive.css" rel="stylesheet">
-</head>
-
-<h2>DetailsSoldProduct</h2>
-<section id="form">
+<section class="admin-card">
+<h2 class="admin-title">Sold Product Details</h2>
 <fieldset>
     <legend>Sold</legend>
 
@@ -62,6 +52,6 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Back to List", "SoldProduct")
+    @Html.ActionLink("Back to List", "SoldProduct", null, new { @class = "admin-btn admin-btn-secondary" })
 </p>
     </section>
